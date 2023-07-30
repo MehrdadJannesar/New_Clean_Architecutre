@@ -11,7 +11,7 @@ namespace CA.Infrastructrue
 {
     public static class InfrastructreServicesRegistration
     {
-        public static IServiceCollection ConfigurationServicesRegistration(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection ConfigurationInfrastructreServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<EmailSetting>(configuration.GetSection("EmailSettings"));
             services.AddTransient<IEmailSender, EmailSender>();

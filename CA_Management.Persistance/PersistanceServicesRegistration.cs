@@ -12,7 +12,7 @@ namespace CA.Persistance
 {
     public static class PersistanceServicesRegistration
     {
-        public static IServiceCollection ComfigurePersistanceServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection ConfigurePersistanceServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<CA_DbContext>(option =>
             {
