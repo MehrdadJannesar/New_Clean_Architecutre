@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using CA.Application.Contracts.Persistance.Repositories;
 using CA.Application.DTOs.DTOs_User.LeaveAllocation.Validators;
 using CA.Application.Exceptions;
 using CA.Application.Features.LeaveAllocations.Requests.Commands;
-using CA.Application.Persistance.Contract.Repositories;
 using CA.Domain.Models;
 using MediatR;
 using System;

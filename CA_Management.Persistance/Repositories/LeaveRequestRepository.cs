@@ -1,4 +1,4 @@
-﻿using CA.Application.Persistance.Contract.Repositories;
+﻿using CA.Application.Contracts.Persistance.Repositories;
 using CA.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;

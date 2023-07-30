@@ -1,5 +1,5 @@
 ﻿using CA.Application.Persistance.Contract;
-using CA.Application.Persistance.Contract.Repositories;
+using CA.Application.Contracts.Persistance.Repositories;
 using CA.Persistance.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

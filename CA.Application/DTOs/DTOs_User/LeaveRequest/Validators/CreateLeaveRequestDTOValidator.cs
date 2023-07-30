@@ -1,5 +1,5 @@
 ﻿using CA.Application.DTOs.DTOs_User.LeaveRequest.Interfaces;
-using CA.Application.Persistance.Contract.Repositories;
+using CA.Application.Contracts.Persistance.Repositories;
 using FluentValidation;
 using System;
 using System.Collections.Generic;

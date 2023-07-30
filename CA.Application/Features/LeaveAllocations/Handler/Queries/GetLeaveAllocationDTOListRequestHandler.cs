@@ -2,7 +2,7 @@
 using CA.Application.DTOs.DTOs_User;
 using CA.Application.DTOs.DTOs_User.LeaveRequest;
 using CA.Application.Features.LeaveAllocations.Requests.Queries;
-using CA.Application.Persistance.Contract.Repositories;
+using CA.Application.Contracts.Persistance.Repositories;
 using MediatR;
 using System;
 using System.Collections.Generic;
