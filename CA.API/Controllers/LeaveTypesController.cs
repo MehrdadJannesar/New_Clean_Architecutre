@@ -1,5 +1,6 @@
 ﻿using CA.Application.DTOs.DTOs_User.LeaveType;
 using CA.Application.Features.LeaveTypes.Requests.Commands;
+using CA.Application.Features.LeaveTypes.Requests.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,32 +25,43 @@ namespace CA.API.Controllers
         public async Task<ActionResult<List<LeaveTypeDTO>>> Get()
         {
             var leaveTypes = await _mediator.Send(new GetLeaveTypeDTOListRequest());
-            return leaveTypes;
+            return Ok(leaveTypes);
         }
 
         // GET api/<LeaveTypesController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<LeaveTypeDTO>> Get(Guid id)
         {
-            return "value";
+            var leaveType = await _mediator.Send(new GetLeaveTypeDTODetailsRequest{ Id = id });
+            return Ok(leaveType);   
         }
 
         // POST api/<LeaveTypesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> Post([FromBody] CreateLeaveTypeDTO createLeaveTypeDTO)
         {
+            var command = new CreateLeaveTypeCommand { CreateLeaveTypeDTO = createLeaveTypeDTO};
+            var response = await _mediator.Send(command);
+            return Ok(response);
         }
 
         // PUT api/<LeaveTypesController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> Put(Guid id,[FromBody] LeaveTypeDTO leaveTypeDTO)
         {
+            var command = new UpdateLeaveTypeCommand {LeaveTypeDTO = leaveTypeDTO };
+            await _mediator.Send(command);
+            return NoContent();
+
         }
 
         // DELETE api/<LeaveTypesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(Guid id)
         {
+            var command = new DeleteLeaveTypeCommand {Id=id };
+            await _mediator.Send(command);
+            return NoContent();
         }
     }
 }
