@@ -9,7 +9,7 @@ namespace CA.Application.DTOs.DTOs_User.LeaveType
 {
     public class LeaveTypeDTO : BaseDomainDTO, ILeaveTypeDTO
     {
-        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int DefaultDay { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string Name { get; set; }
+        public int DefaultDay { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using CA.Application.DTOs.DTOs_User.LeaveAllocation;
 using CA.Application.DTOs.DTOs_User.LeaveRequest;
 using CA.Application.DTOs.DTOs_User.LeaveType;
 using CA.Domain.Models;
-
+using System.Collections.Generic;
 
 namespace CA.Application.Profiles
 {

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -11,6 +12,7 @@ namespace CA.Application
         public static void ConfigureApplicationServices(this IServiceCollection services) 
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
         }
 
     }
