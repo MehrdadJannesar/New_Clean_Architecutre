@@ -5,6 +5,7 @@ using CA.Application.Features.LeaveAllocations.Requests.Commands;
 using CA.Application.Features.LeaveTypes.Handler.Commands;
 using CA.Application.Features.LeaveTypes.Requests.Commands;
 using CA.Application.Profiles;
+using CA.Application.Response;
 using CA.Application.UnitTest.Mocks;
 using Moq;
 using Shouldly;
@@ -50,7 +51,7 @@ namespace CA.Application.UnitTest.LeaveTypes.Commnads
                 CreateLeaveTypeDTO = _createLeaveTypeDTO
             }, CancellationToken.None);
 
-            result.ShouldBeOfType<Guid>();
+            result.ShouldBeOfType<BaseCommandResponse>();
         }
     }
 }

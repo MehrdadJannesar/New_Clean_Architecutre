@@ -10,10 +10,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CA.Application.Response;
+using System.Linq;
 
 namespace CA.Application.Features.LeaveTypes.Handler.Commands
 {
-    public class CreateLeaveTypeCommandHandler : IRequestHandler<CreateLeaveTypeCommand, Guid>
+    public class CreateLeaveTypeCommandHandler : IRequestHandler<CreateLeaveTypeCommand, BaseCommandResponse>
     {
         private readonly ILeaveTypeRepository _leaveTypeRepository;
         private readonly IMapper _mapper;
@@ -24,19 +26,28 @@ namespace CA.Application.Features.LeaveTypes.Handler.Commands
             _mapper = mapper;
         }
 
-        public async Task<Guid> Handle(CreateLeaveTypeCommand request, CancellationToken cancellationToken)
+        public async Task<BaseCommandResponse> Handle(CreateLeaveTypeCommand request, CancellationToken cancellationToken)
         {
+            var response = new BaseCommandResponse();
             var validator = new CreateLeaveTypeValidator();
             var validation = await validator.ValidateAsync(request.CreateLeaveTypeDTO);
 
             if (!validation.IsValid)
             {
-                throw new ValidationException(validation);
+                response.Success = false;
+                response.Message = "Creation Failed";
+                response.Errors = validation.Errors.Select(e => e.ErrorMessage).ToList();
             }
-            
-            var leaveType = _mapper.Map<LeaveType>(request.CreateLeaveTypeDTO);
-            leaveType = await _leaveTypeRepository.Add(leaveType);
-            return leaveType.Id;
+            else
+            {
+                var leaveType = _mapper.Map<LeaveType>(request.CreateLeaveTypeDTO);
+                leaveType = await _leaveTypeRepository.Add(leaveType);
+                response.Success = true;
+                response.Message = "Creation Success";
+                response.Id = leaveType.Id;
+            }
+
+            return response;
         }
     }
 }
