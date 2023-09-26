@@ -1,6 +1,8 @@
 using CA.Persistance;
 using CA.Infrastructrue;
 using CA.Application;
+using CA.Identity;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +13,16 @@ builder.Services.AddControllers();
 builder.Services.ConfigureApplicationServices();
 builder.Services.ConfigurePersistanceServices(builder.Configuration);
 builder.Services.ConfigurationInfrastructreServices(builder.Configuration);
+builder.Services.ConfigureIdentityServices(builder.Configuration);
+
+
+
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
+
+//in code baraye fa'al sazi bearer dar swagger ast. az tabe zir estefade karde ast.
+AddSwagger(builder.Services);
 
 // Dar inja moshakhas mikoni sath darsresiharo
 builder.Services.AddCors(o => {
@@ -25,6 +34,8 @@ builder.Services.AddCors(o => {
 });
 
 
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,6 +44,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAuthentication();
 
 app.UseHttpsRedirection();
 
@@ -44,3 +57,45 @@ app.UseCors("CorsPolicy");
 app.MapControllers();
 
 app.Run();
+
+// tabe faal saze authorize baraye swagger. dar swagger aval bearer + 1 space mizanim bad az an token ra paste mikonim
+void AddSwagger(IServiceCollection services)
+{
+    services.AddSwaggerGen(o =>
+    {
+        o.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+        {
+            Description = @"JWT Authorization header using the Bearer scheme. 
+                      Enter 'Bearer' [space] and then your token in the text input below.
+                      Example: 'Bearer 1234sddsw'",
+            Name = "Authorization",
+            In = ParameterLocation.Header,
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = "Bearer"
+        });
+
+        o.AddSecurityRequirement(new OpenApiSecurityRequirement()
+        {
+            {
+                new OpenApiSecurityScheme()
+                {
+                    Reference = new OpenApiReference()
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    },
+                    Scheme = "oauth2",
+                    Name = "Bearer",
+                    In = ParameterLocation.Header
+                },
+                new List<string>()
+            }
+        });
+
+        o.SwaggerDoc("v1", new OpenApiInfo()
+        {
+            Version = "v1",
+            Title = "HR Management Api"
+        });
+    });
+}

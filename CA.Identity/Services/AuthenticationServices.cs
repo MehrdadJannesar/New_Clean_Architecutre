@@ -16,13 +16,13 @@ using System.Threading.Tasks;
 
 namespace CA.Identity.Services
 {
-    public class AuthService : IAuthenticationService
+    public class AuthenticationServices : IAuthenticationServices
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IOptions<JwtSettings> _jwtSetting;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AuthService(UserManager<ApplicationUser> userManager, IOptions<JwtSettings> jwtSetting, SignInManager<ApplicationUser> signInManager)
+        public AuthenticationServices(UserManager<ApplicationUser> userManager, IOptions<JwtSettings> jwtSetting, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _jwtSetting = jwtSetting;
@@ -44,7 +44,7 @@ namespace CA.Identity.Services
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Email = request.Email,
-                EmailConfirmed = true
+                EmailConfirmed = true,
             };
 
             var existEmail = await _userManager.FindByEmailAsync(request.Email);
@@ -54,7 +54,7 @@ namespace CA.Identity.Services
             }
             else
             {
-                var result = await _userManager.CreateAsync(user);
+                var result = await _userManager.CreateAsync(user, request.Password);
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, "Employee");

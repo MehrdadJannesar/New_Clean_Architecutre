@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CA.Application.Contracts.Identity
 {
-    public interface IAuthenticationService
+    public interface IAuthenticationServices
     {
         Task<AuthResponse> Login(AuthRequest request);
         Task<RegistrationResponse> Register(RegistrationRequest request);
