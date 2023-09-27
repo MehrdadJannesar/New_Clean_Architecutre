@@ -27,6 +27,7 @@ namespace CA.MVC.Services
                 CreateLeaveTypeDTO createLeaveTypeDTO = _mapper.Map<CreateLeaveTypeDTO>(leaveTypeVM);
 
                 //TODO Auth
+                AddBearerToken();
 
                 var ApiResponse = await _client.LeaveTypesPOSTAsync(createLeaveTypeDTO);
                 if (ApiResponse.Success)
@@ -53,6 +54,7 @@ namespace CA.MVC.Services
         {
             try
             {
+                AddBearerToken();
                 await _client.LeaveTypesDELETEAsync(Id);
                 return new ResponseApi<Guid>() { Success = true };
             }
@@ -64,12 +66,14 @@ namespace CA.MVC.Services
 
         public async Task<LeaveTypeVM> GetLeaveTypeDetailsAsync(Guid Id)
         {
+            AddBearerToken();
             var ApiResponse = await _client.LeaveTypesGETAsync(Id);
             return _mapper.Map<LeaveTypeVM>(ApiResponse);
         }
 
         public async Task<List<LeaveTypeVM>> GetLeaveTypesAsync()
         {
+            AddBearerToken();
             var ApiResponse = await _client.LeaveTypesAllAsync();
             return _mapper.Map<List<LeaveTypeVM>>(ApiResponse);
         }
@@ -80,6 +84,7 @@ namespace CA.MVC.Services
             try
             {
                 var request = _mapper.Map<LeaveTypeDTO>(leaveTypeVM);
+                AddBearerToken();
                 await _client.LeaveTypesPUTAsync(request.Id, request);
                 return new ResponseApi<Guid>() { Success = true };
 

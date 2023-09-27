@@ -1,10 +1,12 @@
 ﻿using CA.MVC.Contracts;
 using CA.MVC.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CA.MVC.Controllers
 {
+    [Authorize]
     public class LeaveTypeController : Controller
     {
         private readonly ILeaveTypeService _leaveTypeService;
